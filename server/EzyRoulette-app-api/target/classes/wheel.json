@@ -1,0 +1,45 @@
+{
+  "id": "wheel",
+  "fragments": [
+    {
+      "index": 0,
+      "prizeType": "RED",
+      "ratio": 12.5
+    },
+    {
+      "index": 1,
+      "prizeType": "GREEN",
+      "ratio": 12.5
+    },
+    {
+      "index": 2,
+      "prizeType": "RED",
+      "ratio": 12.5
+    },
+    {
+      "index": 3,
+      "prizeType": "GREEN",
+      "ratio": 12.5
+    },
+    {
+      "index": 4,
+      "prizeType": "RED",
+      "ratio": 12.5
+    },
+    {
+      "index": 5,
+      "prizeType": "GREEN",
+      "ratio": 12.5
+    },
+    {
+      "index": 6,
+      "prizeType": "RED",
+      "ratio": 12.5
+    },
+    {
+      "index": 7,
+      "prizeType": "GREEN",
+      "ratio": 12.5
+    }
+  ]
+}
