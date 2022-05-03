@@ -8,6 +8,9 @@ public class GameUI: MonoBehaviour
     public static GameUI INSTANCE;
 
     [SerializeField]
+    private Text resultText;
+
+    [SerializeField]
     private Text timer;
 
     [SerializeField]
@@ -35,6 +38,7 @@ public class GameUI: MonoBehaviour
 
     [SerializeField]
     private GameObject chatBoxContents;
+
 
     private float currentTime, delayToNewRoundTime;
 	private bool spinned;
@@ -78,4 +82,6 @@ public class GameUI: MonoBehaviour
             }
         }
     }
+
+
 }

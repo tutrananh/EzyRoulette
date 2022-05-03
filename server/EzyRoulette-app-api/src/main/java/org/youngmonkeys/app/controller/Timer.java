@@ -6,6 +6,7 @@ import com.tvd12.ezyfox.core.annotation.EzyRequestController;
 import lombok.Data;
 import org.youngmonkeys.app.entity.Bettor;
 import org.youngmonkeys.app.entity.Result;
+import org.youngmonkeys.app.service.GiftCardService;
 import org.youngmonkeys.app.service.ResultService;
 import org.youngmonkeys.app.service.WheelService;
 import org.youngmonkeys.common.service.UserService;
@@ -24,6 +25,10 @@ public class Timer implements java.lang.Runnable{
 
     @EzyAutoBind
     private static UserService userService;
+
+    @EzyAutoBind
+    private static GiftCardService giftCardService;
+
 
     private static int timeInARound = 30;
     private static int time;

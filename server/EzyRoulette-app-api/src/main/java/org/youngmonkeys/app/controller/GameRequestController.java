@@ -6,10 +6,14 @@ import com.tvd12.ezyfox.core.annotation.EzyRequestController;
 import com.tvd12.ezyfox.util.EzyLoggable;
 import com.tvd12.ezyfoxserver.entity.EzyUser;
 import com.tvd12.ezyfoxserver.support.factory.EzyResponseFactory;
+import com.tvd12.ezyfoxserver.wrapper.EzyAppUserManager;
+import com.tvd12.ezyfoxserver.wrapper.impl.EzyAppUserManagerImpl;
 import org.youngmonkeys.app.entity.Bettor;
-import org.youngmonkeys.app.entity.Result;
+import org.youngmonkeys.app.entity.GiftCard;
+import org.youngmonkeys.app.request.AddBalanceByGiftCardRequest;
 import org.youngmonkeys.app.request.BetRequest;
 import org.youngmonkeys.app.request.ChatRequest;
+import org.youngmonkeys.app.service.GiftCardService;
 import org.youngmonkeys.app.service.ResultService;
 import org.youngmonkeys.app.service.WheelService;
 import org.youngmonkeys.common.entity.User;
@@ -34,7 +38,11 @@ public class GameRequestController extends EzyLoggable {
 	@EzyAutoBind
 	ResultService resultService;
 
+	@EzyAutoBind
+	GiftCardService giftCardService;
 
+	@EzyAutoBind
+	EzyAppUserManager test;
 
 	@EzyDoHandle("spin")
 	public void spin(EzyUser user) {
@@ -68,7 +76,6 @@ public class GameRequestController extends EzyLoggable {
 			logger.info("result = {}",result);
 		}
 		logger.info("Time: {}", time);
-
 		responseFactory.newObjectResponse()
 				.command("getTime")
 				.param("time", time)
@@ -99,6 +106,7 @@ public class GameRequestController extends EzyLoggable {
 	public void betList(EzyUser user) {
 		List<String> redBettors = new ArrayList<>();
 		List<String> greenBettors = new ArrayList<>();
+		List<EzyUser> ezyUsers = test.getUserList();
 		for (Bettor b: Timer.getRedBettors()) {
 			redBettors.add(b.toString());
 		}
@@ -109,7 +117,7 @@ public class GameRequestController extends EzyLoggable {
 				.command("betList")
 				.param(redBettors)
 				.param(greenBettors)
-				.user(user)
+				.users(ezyUsers)
 				.execute();
 	}
 
@@ -130,10 +138,34 @@ public class GameRequestController extends EzyLoggable {
 	public void chatList(EzyUser user) {
 		List<String> chatContents = new ArrayList<>();
 		chatContents = Timer.getChatContents();
-
+		List<EzyUser> ezyUsers = test.getUserList();
 		responseFactory.newArrayResponse()
 				.command("chatList")
 				.param(chatContents)
+				.users(ezyUsers)
+				.execute();
+	}
+
+	@EzyDoHandle("addBalanceByGiftCard")
+	public void addBalanceByGiftCard(EzyUser user, AddBalanceByGiftCardRequest request) {
+		int amount = 0;
+		String serial = request.getSerial();
+		String code = request.getCode();
+		GiftCard giftCard = giftCardService.getGiftCard(serial);
+		if (giftCard == null) { // user doesn't exist in db
+			logger.info("giftCard doesn't exist in db");
+		}
+		else{
+			if (code.equals(giftCard.getCode()) && !giftCard.isActivated() ) {
+				amount = giftCard.getAmount();
+				giftCard.setActivated(true);
+				giftCardService.updateGiftCard(giftCard);
+				User u = userService.updateUser(user.getName(), amount);
+			}
+		}
+		responseFactory.newObjectResponse()
+				.command("addBalanceByGiftCard")
+				.param("amount",amount)
 				.user(user)
 				.execute();
 	}

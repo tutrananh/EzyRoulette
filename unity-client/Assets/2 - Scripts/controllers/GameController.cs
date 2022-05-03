@@ -12,10 +12,8 @@ public class GameController : MonoBehaviour
 	private void Awake()
 	{
 		GameUI.INSTANCE.Username.text = SocketProxy.GetInstance().UserAuthenInfo.Username;
-		getBalance();
-		getTime();
-		InvokeRepeating("getBetList", 1, 1);
-		InvokeRepeating("getChatList", 1, 1);
+		GetBalance();
+		GetTime();
 		SpinResponseHandler.spinResponseEvent += OnSpinResponse;
 		BalanceResponseHandler.balanceResponseEvent += OnBalanceResponse;
 		TimerResponseHandler.timerResponseEvent += OnTimerResponse;
@@ -23,16 +21,24 @@ public class GameController : MonoBehaviour
 		BetListResponseHandler.betListResponseEvent += OnBetListResponse;
 		ChatResponseHandler.chatResponseEvent += OnChatRespone;
 		ChatListResponseHandler.chatListResponseEvent += OnChatListRespone;
+		AddByGiftCardResponseHandler.addBalanceByGiftCardResponseEvent += OnAddBalanceByGiftCardResponse;
 	}
+
+    private void OnAddBalanceByGiftCardResponse(int amount)
+    {
+		ShopUI.INSTANCE.OnClickAddBalanceByGiftCard(amount);
+    }
 
     private void OnChatListRespone(List<string> contents)
     {
 		GameUI.INSTANCE.updateChatBox(contents);
-    }
+		GetBalance();
+	}
 
     private void OnChatRespone(string obj)
     {
-    }
+		GetChatList();
+	}
 
     private void OnBetListResponse(List<string> redBettors, List<string> greenBettors)
     {
@@ -49,13 +55,13 @@ public class GameController : MonoBehaviour
 
     private void OnBalanceResponse(float balance)
     {
-		GameUI.INSTANCE.BalanceText.text = "Balance: " + balance.ToString();
+		GameUI.INSTANCE.BalanceText.text = balance.ToString();
 	}
 
     private void OnBetResponse(float betAmount)
     {
-		Debug.Log(betAmount);
-		getBalance();
+		GetBetList();
+		GetBalance();
 	}
 
     private void OnTimerResponse(int time)
@@ -77,11 +83,11 @@ public class GameController : MonoBehaviour
 		SocketRequest.GetInstance().sendSpinRequest();
 	}
 
-    public void getTime()
+    public void GetTime()
     {
 		SocketRequest.GetInstance().sendGetTimeRequest();
 	}
-	public void getBalance()
+	public void GetBalance()
     {
 		SocketRequest.GetInstance().sendUpdateBalanceRequest();
 	}
@@ -111,7 +117,7 @@ public class GameController : MonoBehaviour
 		}
 		GameUI.INSTANCE.BetInputField.text = "";
 	}
-	public void getBetList()
+	public void GetBetList()
     {
 		SocketRequest.GetInstance().sendBetListRequest();
 
@@ -123,11 +129,18 @@ public class GameController : MonoBehaviour
 		GameUI.INSTANCE.ChatInputField.text = "";
 	}
 
-	public void getChatList()
+	public void GetChatList()
 	{
 		SocketRequest.GetInstance().sendChatListRequest();
 
 	}
+
+	public void AddBalanceByGiftCard()
+    {
+		SocketRequest.GetInstance()
+			.sendAddBalanceByGiftCardRequest(ShopUI.INSTANCE.Serial.text,ShopUI.INSTANCE.Code.text);
+	}
+
 	private void Update()
 	{
 		if (GameUI.INSTANCE.CurrentTime >= 0)
@@ -146,8 +159,9 @@ public class GameController : MonoBehaviour
 			GameUI.INSTANCE.DelayToNewRoundTime -= Time.deltaTime;
             if (GameUI.INSTANCE.DelayToNewRoundTime < 0)
             {
-				getTime();
-				getBalance();
+				GetBetList();
+				GetTime();
+				GetBalance();
 				GameUI.INSTANCE.DelayToNewRoundTime = 10f;
 				GameUI.INSTANCE.BetOnGreenBtn.interactable = true;
 				GameUI.INSTANCE.BetOnRedBtn.interactable = true;

@@ -1,0 +1,55 @@
+[{
+  "_id": 1,
+  "amount": 10,
+  "code": "1",
+  "serial": "1",
+  "activated": false
+},{
+  "_id": 2,
+  "amount": 50,
+  "code": "2",
+  "serial": "2",
+  "activated": false
+},{
+  "_id": 3,
+  "amount": 100,
+  "code": "3",
+  "serial": "3",
+  "activated": false
+},{
+  "_id": 4,
+  "amount": 10,
+  "code": "11",
+  "serial": "11",
+  "activated": false
+},{
+  "_id": 5,
+  "amount": 50,
+  "code": "22",
+  "serial": "22",
+  "activated": false
+},{
+  "_id": 6,
+  "amount": 100,
+  "code": "33",
+  "serial": "33",
+  "activated": false
+},{
+  "_id": 7,
+  "amount": 10,
+  "code": "111",
+  "serial": "111",
+  "activated": false
+},{
+  "_id": 8,
+  "amount": 50,
+  "code": "222",
+  "serial": "222",
+  "activated": false
+},{
+  "_id": 9,
+  "amount": 100,
+  "code": "333",
+  "serial": "333",
+  "activated": false
+}]

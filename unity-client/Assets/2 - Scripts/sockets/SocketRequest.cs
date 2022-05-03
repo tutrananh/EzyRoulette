@@ -70,4 +70,15 @@ public class SocketRequest : EzyLoggable
 		var app = client.getApp();
 		app?.send("chatList");
 	}
+
+	public void sendAddBalanceByGiftCardRequest(string serial, string code)
+	{
+		var client = SocketProxy.GetInstance().Client;
+		EzyObject data = EzyEntityFactory
+			.newObjectBuilder()
+			.append("serial", serial)
+			.append("code", code)
+			.build();
+		client.getApp().send("addBalanceByGiftCard", data);
+	}
 }

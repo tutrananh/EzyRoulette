@@ -110,7 +110,7 @@ public class RotateWheel : MonoBehaviour
 		if (currentAngle >= totalAngle)
 		{
 			Deactivate();
-			finishEvent?.Invoke(slicePrizes[this.prize]);
+			finishEvent?.Invoke("Last round: " + slicePrizes[this.prize]);
 		}
 	}
 
