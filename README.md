@@ -21,6 +21,7 @@
         > db.temp.insert({"key": "value"});
         > db.createUser({user: "root", pwd: "123456", roles:[{role: "readWrite", db: "ezyrolette"}]})
       ```
+    - Import collections in db_collections folder to db
     - Import ```server``` folder into an IDE (Eclipse, Intellij, Netbean)
     - Run file [ApplicationStartup.java](https://github.com/tutrananh/EzyRoulette/blob/main/server/EzyRoulette-startup/src/main/java/org/youngmonkeys/ApplicationStartup.java)
 3. Run Unity client:
