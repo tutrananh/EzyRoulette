@@ -20,7 +20,12 @@ public class UserServiceImpl implements UserService {
 	public User getUser(String username) {
 		return userRepo.findByField("username", username);
 	}
-	
+
+	@Override
+	public User getUserByToken(String token) {
+		return userRepo.findByField("loginToken", token);
+	}
+
 	@Override
 	public User createUser(String username, String password) {
 		User user = new User();
@@ -28,6 +33,7 @@ public class UserServiceImpl implements UserService {
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setBalance(10f);
+		user.setLoginToken("none");
 		userRepo.save(user);
 		return user;
 	}

@@ -6,9 +6,15 @@ using UnityEngine.UI;
 public class ShopUI : MonoBehaviour
 {
     public static ShopUI INSTANCE;
+    private static string addWithPaypalUrl = "http://localhost:8080/addBalance?username=";
+    [SerializeField]
+    private UniWebView webView;
 
     [SerializeField]
     private GameObject giftCardForm;
+
+    [SerializeField]
+    private GameObject paypalForm;
 
     [SerializeField]
     private InputField serial;
@@ -43,12 +49,28 @@ public class ShopUI : MonoBehaviour
     }
     public void OnClickBackToGame()
     {
+      /*  if (paypalForm.activeSelf)
+        {
+            paypalForm.SetActive(false);
+        }*/
         gameObject.SetActive(false);
+    }
+    public void OnClickPaypalButton()
+    {/*
+        paypalForm.SetActive(true);
+        webView.Load(addWithPaypalUrl + GameUI.INSTANCE.Username);*/
+        Application.OpenURL(addWithPaypalUrl + GameUI.INSTANCE.Username.text);
+        Invoke("UpdateBalanceAfterTopup", 20);
+    }
+    void UpdateBalanceAfterTopup()
+    {
+        SocketRequest.GetInstance().sendUpdateBalanceRequest();
     }
     public void OnClickGiftCardButton()
     {
         giftCardForm.SetActive(true);
     }
+
 
     public void OnClickAddBalanceByGiftCard(int amount)
     {
@@ -60,6 +82,7 @@ public class ShopUI : MonoBehaviour
         {
             giftCardForm.SetActive(false);
             addBalanceResultText.text = "Successfully Added "+ amount+" to balance!!!";
+            Invoke("UpdateBalanceAfterTopup", 1);
         }
         addBalanceResultForm.SetActive(true);
         Invoke("HideAddBalanceResultForm", 2f);

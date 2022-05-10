@@ -1,3 +1,4 @@
+[System.Serializable]
 public class User
 {
 	private string username = "";
@@ -16,4 +17,5 @@ public class User
 		this.username = username;
 		this.password = password;
 	}
+
 }

@@ -1,18 +1,21 @@
 [{
   "_id": 2,
   "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-  "balance": 162,
+  "balance": 212,
+  "loginToken": "7f490e617fd93fee713a6990d4d609c15568ea9839119f29b1aa644400ce2ffe",
   "username": "test"
 },{
   "_id": 3,
   "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-  "balance": 31,
+  "balance": 81,
   "username": "test1"
 },{
   "_id": 4,
+  "username": "test2",
   "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+  "loginToken": "838ec3c691a4aad6a900dde67b6875efe7e7349b4892666edd59a7699a35318a",
   "balance": 9,
-  "username": "test2"
+  "_class": "com.example.ezyroulettehttpserver.entity.User"
 },{
   "_id": 5,
   "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
@@ -38,4 +41,23 @@
   "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
   "balance": 10,
   "username": "anhtu"
+},{
+  "_id": 10,
+  "password": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+  "balance": 8,
+  "username": "test10"
+},{
+  "_id": 11,
+  "username": "117010899012825914959",
+  "password": "898d8d7e5ac422482fc676764e88a19deead5102aea3d1f1e882a25383e06d45",
+  "loginToken": "none",
+  "balance": 100,
+  "_class": "com.example.ezyroulettehttpserver.entity.User"
+},{
+  "_id": 14,
+  "username": "user117010",
+  "password": "898d8d7e5ac422482fc676764e88a19deead5102aea3d1f1e882a25383e06d45",
+  "loginToken": "none",
+  "balance": 380,
+  "_class": "com.example.ezyroulettehttpserver.entity.User"
 }]

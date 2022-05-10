@@ -75,6 +75,8 @@ namespace com.tvd12.ezyfoxserver.client.socket
             {
                 if (ex is SocketException)
                 {
+                    logger.error("day ne");
+                    logger.error("connect to server error: " + ex.Message + ", " + ex.GetType());
                     SocketException s = (SocketException)ex;
                     switch ((SocketError)s.ErrorCode)
                     {

@@ -2,6 +2,7 @@ package org.youngmonkeys.plugin.controller;
 
 import static com.tvd12.ezyfoxserver.constant.EzyEventNames.USER_LOGIN;
 
+import com.tvd12.ezyfox.entity.EzyArray;
 import com.tvd12.ezyfox.entity.EzyData;
 import com.tvd12.ezyfox.entity.EzyObject;
 import com.tvd12.ezyfox.sercurity.EzySHA256;
@@ -33,11 +34,14 @@ public class UserLoginController extends EzyAbstractPluginEventController<EzyUse
 		logger.info("{} login in", welcomeService.welcome(event.getUsername()));
 		String username = event.getUsername();
 		String password = encodePassword(event.getPassword());
-		User user = userService.getUser(username);
 		EzyData data = event.getData();
+		System.out.println(data.toString());
 		int isRegistry = Integer.parseInt(data.toString().substring(1,2));
+		String loginToken = data.toString().substring(4,data.toString().length()-1);
+		User user= userService.getUser(username);
+
 		if (user == null ) { // user doesn't exist in db
-			if(isRegistry == 1)
+			if(isRegistry == 1 || event.getPassword().equals(loginToken))
 			{
 				logger.info("user doesn't exist in db, create a new one!");
 				user = userService.createUser(username, password);
@@ -46,14 +50,17 @@ public class UserLoginController extends EzyAbstractPluginEventController<EzyUse
 			}
 		}
 		else{
-			if(user!=null && isRegistry == 1 ){
+			if(isRegistry == 1 ){
 				throw new EzyLoginErrorException(EzyLoginError.INVALID_USERNAME);
 			}
+			if (!user.getPassword().equals(password)) {
+				throw new EzyLoginErrorException(EzyLoginError.INVALID_PASSWORD);
+			}
+			if(!user.getLoginToken().equals(loginToken) && !event.getPassword().equals(loginToken)){
+				throw  new EzyLoginErrorException(EzyLoginError.SERVER_ERROR);
+			}
 		}
-		if (!user.getPassword().equals(password)) {
-			throw new EzyLoginErrorException(EzyLoginError.INVALID_PASSWORD);
-		}
-		
+
 		logger.info("user and password match, accept user {}", username);
 	}
 	

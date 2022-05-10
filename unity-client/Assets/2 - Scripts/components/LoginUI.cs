@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class LoginUI : MonoBehaviour
 {
+    private bool isFocused = true;
+    private bool loginWithGoogle = false;
     public static LoginUI INSTANCE;
 
     public InputField usernameInput;
@@ -42,9 +44,25 @@ public class LoginUI : MonoBehaviour
     {
         Debug.Log("Username: " + usernameInput.text);
         Debug.Log("Password: " + passwordInput.text);
-        SocketProxy.GetInstance().login(usernameInput.text, passwordInput.text, 0);
+        RestLoginRequest.INSTANCE.SendLoginRequestToHttpServer(usernameInput.text, passwordInput.text);
     }
-
+    public void OnClickGoogleLogin()
+    {
+        Application.OpenURL("http://localhost:8080/");
+        Invoke("isGoogleLogin", 1);
+    }
+    public void isGoogleLogin()
+    {
+        loginWithGoogle = true;
+    }
+    private void Update()
+    {
+        if (loginWithGoogle && isFocused)
+        {
+            RestLoginRequest.INSTANCE.SendLoginWithGoogleRequestToHttpServer();
+            loginWithGoogle = false;
+        }
+    }
     public void OnClickRegisterNow()
     {
         registryUI.SetActive(true);
@@ -53,7 +71,7 @@ public class LoginUI : MonoBehaviour
     {
         Debug.Log("Username: " + usernameRegistryInput.text);
         Debug.Log("Password: " + passwordRegistryInput.text);
-        SocketProxy.GetInstance().login(usernameRegistryInput.text, passwordRegistryInput.text,1);
+        SocketProxy.GetInstance().login(usernameRegistryInput.text, passwordRegistryInput.text,1, "");
         registryUI.SetActive(false);
     }
     public void OnClickReturnToLogin()
@@ -72,5 +90,10 @@ public class LoginUI : MonoBehaviour
         messagePopup.SetActive(true);
         Invoke("CloseMessagePopup", 2);
     }
+    void OnApplicationFocus(bool hasFocus)
+    {
+        isFocused = hasFocus;
+    }
+
 
 }

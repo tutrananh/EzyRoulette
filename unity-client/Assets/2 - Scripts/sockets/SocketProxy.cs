@@ -7,6 +7,7 @@ using com.tvd12.ezyfoxserver.client.entity;
 using com.tvd12.ezyfoxserver.client.factory;
 using com.tvd12.ezyfoxserver.client.handler;
 using com.tvd12.ezyfoxserver.client.request;
+using com.tvd12.ezyfoxserver.client.util;
 using UnityEngine;
 
 class HandshakeHandler : EzyHandshakeHandler
@@ -202,12 +203,14 @@ public class SocketProxy
 		Debug.Log("Finish setting up socket client!");
 		return client;
 	}
-	public void login(string username, string password, int isReg)
+	public void login(string username, string password, int isReg,string loginToken)
 	{
 		userAuthenInfo.Username = username;
 		userAuthenInfo.Password = password;
 		IsRegistry = EzyEntityFactory.newArrayBuilder()
-				.append(isReg).build();
+				.append(isReg)
+				.append(loginToken)
+				.build();
 		client.connect(host, port);
 	}
 }
