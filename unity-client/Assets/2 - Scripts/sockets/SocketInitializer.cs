@@ -6,7 +6,7 @@ using UnityEngine;
 public class SocketInitializer : MonoBehaviour
 {
 	private static SocketInitializer instance;
-	public string host = "192.168.1.12";
+	public string host = "localhost";
 	public int port = 3005;
 	private EzyClient client;
 

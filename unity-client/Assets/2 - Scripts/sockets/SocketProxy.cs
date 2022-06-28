@@ -14,11 +14,13 @@ class HandshakeHandler : EzyHandshakeHandler
 {
 	protected override EzyRequest getLoginRequest()
 	{
+
+
 		return new EzyLoginRequest(
 			SocketProxy.ZONE_NAME,
 			SocketProxy.GetInstance().UserAuthenInfo.Username,
 			SocketProxy.GetInstance().UserAuthenInfo.Password,
-			SocketProxy.GetInstance().IsRegistry
+			SocketProxy.GetInstance().Data
 		);
 	}
 }
@@ -158,14 +160,14 @@ public class SocketProxy
 	private int port;
 	private EzyClient client;
 	private User userAuthenInfo = new User("", "");
-	private EzyData isRegistry;
+	private EzyObject data;
 
 	public string Host => host;
 	public int Port => port;
 	public EzyClient Client => client;
 	public User UserAuthenInfo => userAuthenInfo;
 
-    public EzyData IsRegistry { get => isRegistry; set => isRegistry = value; }
+    public EzyObject Data { get => data; set => data = value; }
 
     public static SocketProxy GetInstance()
 	{
@@ -203,13 +205,12 @@ public class SocketProxy
 		Debug.Log("Finish setting up socket client!");
 		return client;
 	}
-	public void login(string username, string password, int isReg,string loginToken)
+	public void login(string username, string password,string loginToken)
 	{
 		userAuthenInfo.Username = username;
 		userAuthenInfo.Password = password;
-		IsRegistry = EzyEntityFactory.newArrayBuilder()
-				.append(isReg)
-				.append(loginToken)
+		Data = EzyEntityFactory.newObjectBuilder()
+				.append("loginToken", loginToken)
 				.build();
 		client.connect(host, port);
 	}

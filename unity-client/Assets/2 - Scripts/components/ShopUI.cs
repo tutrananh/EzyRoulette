@@ -7,8 +7,6 @@ public class ShopUI : MonoBehaviour
 {
     public static ShopUI INSTANCE;
     private static string addWithPaypalUrl = "http://localhost:8080/addBalance?username=";
-    [SerializeField]
-    private UniWebView webView;
 
     [SerializeField]
     private GameObject giftCardForm;
@@ -60,7 +58,7 @@ public class ShopUI : MonoBehaviour
         paypalForm.SetActive(true);
         webView.Load(addWithPaypalUrl + GameUI.INSTANCE.Username);*/
         Application.OpenURL(addWithPaypalUrl + GameUI.INSTANCE.Username.text);
-        Invoke("UpdateBalanceAfterTopup", 20);
+        Invoke("UpdateBalanceAfterTopup", 30);
     }
     void UpdateBalanceAfterTopup()
     {

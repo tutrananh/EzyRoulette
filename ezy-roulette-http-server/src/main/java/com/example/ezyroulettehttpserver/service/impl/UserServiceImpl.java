@@ -18,10 +18,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User createUser(String username, String password, String loginToken) {
+        User user = new User();
+        user.setId(countDocuments());
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setBalance(10f);
+        user.setLoginToken(loginToken);
+        userRepo.save(user);
+        return user;
+    }
+
+    @Override
     public User updateUser(String username, String loginToken, float addedAmount) {
         User user = userRepo.findUserByUsername(username);
         if(user==null) return null;
-        user.setLoginToken(loginToken);
+        if(loginToken !=null){
+            user.setLoginToken(loginToken);
+        }
         user.setBalance(user.getBalance()+addedAmount);
         userRepo.save(user);
         return user;

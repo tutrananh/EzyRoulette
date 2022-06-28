@@ -11,7 +11,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
        http.authorizeRequests()
-               .antMatchers(HttpMethod.POST, "/accountLogin/**").permitAll()
+               .antMatchers(HttpMethod.POST, "/accountLogin/**","/accountRegistry/**","/addGiftCard/**").permitAll()
                .antMatchers("/addBalance","/pay/**","/getGoogleLoginToken").permitAll()
                .anyRequest().authenticated()
                .and().oauth2Login()

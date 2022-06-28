@@ -49,7 +49,7 @@ public class LoginUI : MonoBehaviour
     public void OnClickGoogleLogin()
     {
         Application.OpenURL("http://localhost:8080/");
-        Invoke("isGoogleLogin", 1);
+        Invoke("isGoogleLogin", 5);
     }
     public void isGoogleLogin()
     {
@@ -71,7 +71,7 @@ public class LoginUI : MonoBehaviour
     {
         Debug.Log("Username: " + usernameRegistryInput.text);
         Debug.Log("Password: " + passwordRegistryInput.text);
-        SocketProxy.GetInstance().login(usernameRegistryInput.text, passwordRegistryInput.text,1, "");
+        RestLoginRequest.INSTANCE.SendRegistryRequestToHttpServer(usernameRegistryInput.text, passwordRegistryInput.text);
         registryUI.SetActive(false);
     }
     public void OnClickReturnToLogin()

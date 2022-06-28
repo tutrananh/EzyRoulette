@@ -34,31 +34,12 @@ public class UserLoginController extends EzyAbstractPluginEventController<EzyUse
 		logger.info("{} login in", welcomeService.welcome(event.getUsername()));
 		String username = event.getUsername();
 		String password = encodePassword(event.getPassword());
-		EzyData data = event.getData();
-		System.out.println(data.toString());
-		int isRegistry = Integer.parseInt(data.toString().substring(1,2));
-		String loginToken = data.toString().substring(4,data.toString().length()-1);
+		EzyObject data = event.getData();
+		String loginToken = data.get("loginToken");
 		User user= userService.getUser(username);
 
-		if (user == null ) { // user doesn't exist in db
-			if(isRegistry == 1 || event.getPassword().equals(loginToken))
-			{
-				logger.info("user doesn't exist in db, create a new one!");
-				user = userService.createUser(username, password);
-			}else{
-				throw new EzyLoginErrorException(EzyLoginError.INVALID_USERNAME);
-			}
-		}
-		else{
-			if(isRegistry == 1 ){
-				throw new EzyLoginErrorException(EzyLoginError.INVALID_USERNAME);
-			}
-			if (!user.getPassword().equals(password)) {
-				throw new EzyLoginErrorException(EzyLoginError.INVALID_PASSWORD);
-			}
-			if(!user.getLoginToken().equals(loginToken) && !event.getPassword().equals(loginToken)){
-				throw  new EzyLoginErrorException(EzyLoginError.SERVER_ERROR);
-			}
+		if(!user.getLoginToken().equals(loginToken)){
+			throw  new EzyLoginErrorException(EzyLoginError.SERVER_ERROR);
 		}
 
 		logger.info("user and password match, accept user {}", username);

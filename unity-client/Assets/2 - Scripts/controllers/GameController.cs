@@ -137,8 +137,7 @@ public class GameController : MonoBehaviour
 
 	public void AddBalanceByGiftCard()
     {
-		SocketRequest.GetInstance()
-			.sendAddBalanceByGiftCardRequest(ShopUI.INSTANCE.Serial.text,ShopUI.INSTANCE.Code.text);
+		RestAddBalanceRequest.INSTANCE.SendAddBalanceByGiftCardRequestToHttpServer(GameUI.INSTANCE.Username.text, ShopUI.INSTANCE.Serial.text, ShopUI.INSTANCE.Code.text);
 	}
 
 	private void Update()

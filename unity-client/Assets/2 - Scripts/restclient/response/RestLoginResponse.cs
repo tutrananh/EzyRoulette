@@ -20,6 +20,17 @@ public class RestLoginResponse : MonoBehaviour
 
         INSTANCE = this;
     }
+    public void OnRegistryRequestComplete(Response response, string username, string password)
+    {
+        Debug.Log($"Status Code: {response.StatusCode}");
+        Debug.Log($"Data: {response.Data}");
+        Debug.Log($"Error: {response.Error}");
+        HandleRegistryResponse(response, username, password);
+    }
+    void HandleRegistryResponse(Response response, string username, string password)
+    {
+        HandleLoginResponse(response, username, password);
+    }
 
     public void OnLoginRequestComplete(Response response, string username, string password)
     {
@@ -28,15 +39,6 @@ public class RestLoginResponse : MonoBehaviour
         Debug.Log($"Error: {response.Error}");
         HandleLoginResponse(response, username, password);
     }
-
-    public void OnLoginWithGoogleRequestComplete(Response response)
-    {
-        Debug.Log($"Status Code: {response.StatusCode}");
-        Debug.Log($"Data: {response.Data}");
-        Debug.Log($"Error: {response.Error}");
-        HandleGoogleLoginResponse(response.Data);
-    }
-
     void HandleLoginResponse(Response response, string username, string password)
     {
         string loginToken = response.Data;
@@ -52,17 +54,24 @@ public class RestLoginResponse : MonoBehaviour
             }
             else
             {
-                SocketProxy.GetInstance().login(username, password,0, loginToken);
+                SocketProxy.GetInstance().login(username, password, loginToken);
             }
         }
     }
-    
+
+    public void OnLoginWithGoogleRequestComplete(Response response)
+    {
+        Debug.Log($"Status Code: {response.StatusCode}");
+        Debug.Log($"Data: {response.Data}");
+        Debug.Log($"Error: {response.Error}");
+        HandleGoogleLoginResponse(response.Data);
+    }
     void HandleGoogleLoginResponse(string loginToken)
     {
         string username = "user" + loginToken.Substring(0,6);
         if (!loginToken.Equals(""))
         {
-            SocketProxy.GetInstance().login(username, loginToken, 0, loginToken);
+            SocketProxy.GetInstance().login(username, loginToken, loginToken);
         }
     }
 }
