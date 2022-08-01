@@ -1,6 +1,6 @@
 # EzyRoulette
  
-Check out "Document.docx" for more infomations.
+Check out "Document.pdf" for more infomations.
 
 # How to run?
 
